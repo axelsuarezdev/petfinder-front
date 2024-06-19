@@ -4,13 +4,13 @@ import { useRecoilState } from "recoil";
 import {useNavigate} from "react-router-dom"
 import { login, userData } from "../hooks/state";
 import beach from "../components/images/beach.png"
-import { getNearbyPets, initGetAccount } from "../hooks/hooks";
+import { getNearbyPets, initGetAccount, checkAPI } from "../hooks/hooks";
 import { Button } from "../ui/Button";
 
 export function Home() {
   const [isLogin, setIsLogin] = useRecoilState(login)
   const [userDataState, setUserData] = useRecoilState(userData);
-  
+  const [checkApiState, setCheckAPIState] = useState(false);
   const navigate = useNavigate();
   const checkAndNavigate = (url: string)=>{
     if (isLogin === true){
@@ -21,6 +21,13 @@ export function Home() {
     }
   }
   useEffect(() => {
+    // Un checkeo para controlar la cantidad de veces que fuera a chequear la API el usuario.
+    if (checkApiState === false){
+      checkAPI().then((res)=>{
+        console.log(res)
+        setCheckAPIState(true)
+      })
+    }
     initGetAccount().then((accountFinded) => {
       if (accountFinded && accountFinded.token) {
         setUserData(accountFinded);

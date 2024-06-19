@@ -209,3 +209,20 @@ export async function updateReport(reportData, token){
         return res;
     });
   }
+export async function checkAPI(){
+  try {
+    const response = await fetch(API_BASE_URL + "/check", {
+      method: "GET",
+      headers: { "content-type": "application/json" },
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    const data = await response.json().catch(()=> response.text());
+    console.log(data);
+    return data; // Retornar los datos correctamente
+  } catch (error) {
+    console.error("Error en optimizedFetch:", error);
+    throw error;
+  }
+}

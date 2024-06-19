@@ -32,7 +32,6 @@ export function Register() {
         }
         console.log(fulfillUserData);
         setUserData(fulfillUserData);
-        console.log("initUser?CTM?")
         initSetAccount(fulfillUserData);
         setIsLogin(true);
         navigate("/");
